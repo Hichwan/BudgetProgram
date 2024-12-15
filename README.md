@@ -9,3 +9,8 @@ Simple Budget Program designed to take user input for certain things such as mon
 &nbsp;&nbsp;&nbsp;&nbsp;-It has two ways to display the database: via a table or pie chart.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-The pie chart is specifically color coded for each expense and is labeled with the value being displayed as both a floating number and percent.
+
+**12/14/24**
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;-Added a line regression model based on a 'random' dataset created to mimic a year's worth of expenses. Will output the next month's predicted expenses.
