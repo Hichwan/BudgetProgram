@@ -110,14 +110,51 @@ def predict_next(df, category_models):
 
     return predictions
 
+# R-squared Calculation
+def compute_r2(y_actual, y_predicted):
+    ss_total = np.sum((y_actual - np.mean(y_actual))**2)
+    ss_residual = np.sum((y_actual - y_predicted)**2)
+    r2 = 1 - (ss_residual / ss_total)
+    return r2
+
+# Mean Squared Error
+def compute_mse(y_actual, y_predicted):
+    mse = np.mean((y_actual - y_predicted)**2)
+    return mse
+
+def evaluate_model(data, category_models):
+    r2_scores = {}
+    mse_scores = {}
+
+    for category in data['Category'].unique():
+        category_data = data[data['Category'] == category]
+        X, y = prep_data(category_data)
+        theta = category_models[category]
+        
+        # Predict values
+        y_pred = X.dot(theta)
+        
+        # Compute R² and MSE
+        r2_scores[category] = compute_r2(y, y_pred)
+        mse_scores[category] = compute_mse(y, y_pred)
+
+    return r2_scores, mse_scores
+
 def main():
     data = read_file('/kaggle/input/budget/Budget.csv')
+    #data = read_file('Budget.csv')
 
     category_models = train_linear_regression(data)
     print("Trained theta:", category_models)
 
+    r2_scores, mse_scores = evaluate_model(data, category_models)
+    print("\nModel Evaluation:")
+    for category in r2_scores.keys():
+        print(f"Category {category}: R² = {r2_scores[category]:.4f}, MSE = {mse_scores[category]:.4f}")
     predictions = predict_next(data, category_models)
-
+    
+    predictions = predict_next(data, category_models)
+  
     #X_test = np.array([[1, 1], [1, 2], [1, 3]])  
     #y_test = np.array([1, 2, 3])
     #theta_test = np.array([0.5, 0.5])  
